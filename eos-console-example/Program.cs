@@ -115,13 +115,16 @@ internal class Program
 			TargetUserId = queryUserInfoCallbackInfo.TargetUserId
 		};
 		var result = userInfoInterface.CopyUserInfo(ref copyUserInfoOptions, out var userInfoData);
-		Debug.WriteLine($"CopyUserInfo: {result}, DisplayName={userInfoData.Value.DisplayName}");
+		Console.WriteLine($"CopyUserInfo: {result}, DisplayName={userInfoData.Value.DisplayName}");
 
 
 
 
 
 		/**********  "GAME" LOOP *********/
+		Console.WriteLine("Done with auth, now just simple fake game loop. PRESS [Q] KEY TO LOGOFF/EXIT");
+		
+
 		var loopCount = 0;
 		while (true)
 		{
@@ -134,19 +137,54 @@ internal class Program
 				break;
 			}
 			loopCount++;
+
+			//shutdown if user presses Q
+			while (Console.KeyAvailable )
+			{
+				var keyInfo = Console.ReadKey();
+				if (keyInfo.Key == ConsoleKey.Q)
+				{
+					isShutdown = true;
+					break;
+				}
+			}
 		}
+
+
+		/**************** LOGOFF:  translated from https://dev.epicgames.com/en-US/news/player-authentication-with-epic-account-services-eas ************/
+		var logoutCallbackInfo = await authInterface._LogoutAsync(platformInterface, null, new() { LocalUserId = loginCallbackInfo.LocalUserId });
+		Console.WriteLine($"LOGOUT COMPLETE:  {logoutCallbackInfo.ResultCode}");
+		Debug.Assert(logoutCallbackInfo.ResultCode == Result.Success);
+
+		var deletePersistentAuthOptions = new DeletePersistentAuthOptions();
+		//instead of one-off helper methods like the above _LogoutAsync and _QueryUserInfoAsync, I wrote a more generic _CallAsync() to avoid making more async helpers.
+		//if you have problems understanding it, just use the above _LogoutAsync and _QueryUserInfoAsync methods.  the logic is the same.
+		var deletePersistentAuthCallbackInfo = await platformInterface._CallAsync< DeletePersistentAuthCallbackInfo>(
+			(tcs) => authInterface.DeletePersistentAuth(ref deletePersistentAuthOptions, null,
+			(ref DeletePersistentAuthCallbackInfo callbackInfo) =>
+			{
+				tcs.SetResult(callbackInfo);
+			}));
+		//this is the same as the above _CallAsync() call
+		//var deletePersistentAuthCallbackInfo = await authInterface._DeletePersistentAuthAsync(platformInterface, null, deletePersistentAuthOptions); 
+		Console.WriteLine($"persistent auth deleted  result={deletePersistentAuthCallbackInfo.ResultCode.ToString()}");
+		Debug.Assert(deletePersistentAuthCallbackInfo.ResultCode == Result.Success);
+
+
+		
+
 
 		//dispose
 		platformInterface.Release();
 		platformInterface = null;
 		var shutdownResult = PlatformInterface.Shutdown();
-		Console.WriteLine($"shudown result = {shutdownResult.ToString()}");
+		Console.WriteLine($"SHUTDOWN result = {shutdownResult.ToString()}");
 	}
 
 
 	private static void Update(PlatformInterface platformInterface, int loopCount)
 	{
-		platformInterface.Tick();
+		platformInterface.Tick(); //needs to tick periodically for the sdk to do work
 		Console.Write($" . ");
 	}
 }
