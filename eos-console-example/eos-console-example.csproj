@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+		<RootNamespace>eos_console_example</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>$(DefineConstants);EOS_PLATFORM_WINDOWS_64</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants>$(DefineConstants);EOS_PLATFORM_WINDOWS_64</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Update="EOS_SDK\Bin\EOSSDK-Win64-Shipping.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<!--copy to the root of output instead of a subdir-->
+			<Link>EOSSDK-Win64-Shipping.dll</Link>
+		</None>
+	</ItemGroup>
+
+</Project>
