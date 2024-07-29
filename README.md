@@ -23,3 +23,9 @@ I think I'm actually done with networking for now... I did enough research to kn
 - project keys:  follow the blog series intro posts on how to login to dev portal to create your own project keys: https://dev.epicgames.com/en-US/news/introduction-to-epic-online-services-eos
 - **checkout SlejmUr's EOS_GODOT repo for integration:**  https://github.com/SlejmUr/EOS_GODOT
 
+- other maybe interesting links (maybe not)
+  - [Unity Dev for Epic Games] - Part 2: Epic Online Services (EOS) C# SDK for Login and User Info https://www.youtube.com/watch?v=i2AAB60K43Q
+  - Mirror: oss networking for Unity, includes examples: https://github.com/MirrorNetworking/Mirror
+    - use EOS with Mirror https://github.com/FakeByte/EpicOnlineTransport
+  - EOS plugin for unity : https://github.com/PlayEveryWare/eos_plugin_for_unity
+  - 
