@@ -8,7 +8,11 @@ Here, I take the important parts of the EOS workflow  (EGS specifically)  and po
 This is loosely based on the official Epic WPF example blog series, found here: https://dev.epicgames.com/en-US/news/introduction-to-epic-online-services-eos
 
 ## WIP
-this is a work in progress.   I started this on 2024-07-27 and plan on going through the entire blog series.   Initial checkin is working EOS handshake code.
+- this is a work in progress.   
+- current code does full login/logout workflows.  
+- for p2p you can see `scratch/EpicP2P.cs` which I haven't incorporated into the example yet.  (If you get it working, consider contributing to this repo!)
+
+I think I'm actually done with networking for now... I did enough research to know that I should write a server and send data through a `Span<byte>` straw to my client, so I'll just build that into my prototyping workflow for now.  I'll revisit this project for real networking once I have some playable techdemo.
 
 # links:
 
@@ -17,5 +21,5 @@ this is a work in progress.   I started this on 2024-07-27 and plan on going thr
 - eos documentation: https://dev.epicgames.com/docs/epic-online-services
 - EOS sdk:  only sdk files needed for this project are checked in.  login and download the full sdk here: https://dev.epicgames.com/portal
 - project keys:  follow the blog series intro posts on how to login to dev portal to create your own project keys: https://dev.epicgames.com/en-US/news/introduction-to-epic-online-services-eos
-
+- **checkout SlejmUr's EOS_GODOT repo for integration:**  https://github.com/SlejmUr/EOS_GODOT
 
