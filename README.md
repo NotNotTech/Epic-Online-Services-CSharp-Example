@@ -1,3 +1,7 @@
+# Archived
+This project offers a PoC to get the basics of EOS working with C#.  No future dev is needed/planned.
+
+
 # EGS-CSharp-Example
 C# "Hello, EGS!" as simply as possible. using Epic Game Services (part of Epic Online Services)
 
